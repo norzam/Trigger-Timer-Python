@@ -5,7 +5,16 @@ import datetime
 trigger_array_position = 0
 trigger_status = 0 # 0 no fire, 1 firing
 
+
+
 #####################################
+# Raspberry Pi Pin Assignment
+#####################################
+
+
+
+
+####################################
 # GLOBAL LCD VARIABLES
 #####################################
 
@@ -64,10 +73,7 @@ def trigger_load():
 # TRIGGER SORT LOGIC - must run trigger_load()
 #####################################
 def trigger_sort():
-    #trigger sorting function, this will compare time.now and all trigger in temp2 to check closest value to datetime.datetime.now()
-    #check if temp2[i].begintime if its larger then current time, if smaller ignore, if larger, consider to load value in array
-    #check again if value in array is larger or smaller, if current temp2[i].begintime is smaller than temp2[trigger_array_position]
-    #update the trigger_array_position to latest value. This will be the smallest and closest to time.now
+
     print('trigger_sort: running')
     global now, temp2
     #will return trigger value closest to current time
@@ -147,30 +153,29 @@ def welcome_note():
     print('+------------------------------------------------+')
 
 
-#####################################
-# RUNTIME FUNCTION
-#####################################
 def runtime():
     welcome_note()   # < --
     trigger_load()   # < --  run once
     trigger_sort()   # < --
     trigger_firing() # < --- runtime loop
 
-
-#####################################
-# GLCD FUNCTIONS
-#####################################
-
-
 def glcd_start():
+
+    global lcd_menu_position_current, lcd_menu_position_previous
+
     init()
     clearGraphic()
     initGraphicMode()
+
+    lcd_menu_position_current = lcd_menu_previous
 
     if lcd_menu_position_current == lcd_menu_position_previous:
         printString3x5(datetime.datetime.now().ctime(), 0, 0)
         printString3x5('Hello world', 0, 10)
         printString3x5('This is another test', 0, 20)
+        lcd_menu_position_previous = lcd_menu_position_current
+
+
 
 
 #####################################
