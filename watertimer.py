@@ -19,7 +19,7 @@ trigger_status = 0 # 0 no fire, 1 firing
 #####################################
 
 lcd_menu_position_current = 0
-lcd_menu_position_previous = 0
+lcd_menu_position_previous = 10
 
 #####################################
 
@@ -158,6 +158,7 @@ def runtime():
     trigger_load()   # < --  run once
     trigger_sort()   # < --
     trigger_firing() # < --- runtime loop
+    glcd_start()
 
 def glcd_start():
 
@@ -167,9 +168,9 @@ def glcd_start():
     clearGraphic()
     initGraphicMode()
 
-    lcd_menu_position_current = lcd_menu_previous
 
-    if lcd_menu_position_current == lcd_menu_position_previous:
+    if lcd_menu_position_current != lcd_menu_position_previous:
+        print('Writing to screen')
         printString3x5(datetime.datetime.now().ctime(), 0, 0)
         printString3x5('Hello world', 0, 10)
         printString3x5('This is another test', 0, 20)
